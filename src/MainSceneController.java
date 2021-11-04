@@ -1,22 +1,24 @@
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class MainSceneController {
 
     @FXML
-    private Button DFS;
+    private AnchorPane body;
 
     @FXML
-    private TextField ttTitle;
+    private Button closeWindow;
 
     @FXML
-    void DFSSolve(ActionEvent event) {
-        Stage mainWindow = (Stage) ttTitle.getScene().getWindow();
-        String seq = ttTitle.getText();
-        mainWindow.setTitle(seq);
+    private AnchorPane toolbar;
+
+    @FXML
+    void closeWindowAction(ActionEvent event) {
+        Stage stage = (Stage) closeWindow.getScene().getWindow();
+        stage.close();
     }
 
 }
