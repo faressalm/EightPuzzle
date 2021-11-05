@@ -22,7 +22,7 @@ public class App extends Application {
         stage.initStyle(StageStyle.TRANSPARENT);
         // primaryStage.setTitle("Hello World!");
         // grab your root here
-        
+         
         Scene scene = new Scene(root);
         scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
         stage.setScene(scene);
@@ -47,6 +47,7 @@ public class App extends Application {
             }
         });
     }
+    
     public static void main(String[] args) {
         launch(args);
     }
