@@ -3,15 +3,11 @@ package classes;
 public class State {
 
     private long currentState;
-    private int zeroRow, zeroColumn;
+    private int zeroRow, zeroColumn;// TODO:: put getter to them 
 
     public State(long currentState) {
         this.currentState = currentState;
     }
-
-    public State() {
-    }
-
     public long getCurrentState() {
         return currentState;
     }
