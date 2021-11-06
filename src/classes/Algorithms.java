@@ -1,5 +1,7 @@
 package classes;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
@@ -10,12 +12,14 @@ public class Algorithms {
     private Set<State> Explored;
     // TODO:: ALi
     public Stack<State> DFS(State initialState) {
+        initializeMapAndSet();
         // TODO:: Implement DFS algorithm
         return getPath(); 
     }
 
     // TODO:: Basel
     public Stack<State> BFS(State initialState) {
+        initializeMapAndSet();
         // TODO:: Implement BFS algorithm
         return getPath();
 
@@ -35,6 +39,7 @@ public class Algorithms {
 
     // TODO:: Man3am
     public Stack<State> Astar(State initialState, Heuristics heuristics) {
+        initializeMapAndSet();
         // TODO:: Implement Astar algorithm
         /**
          * to calculate the heuristics -> heuristics.call(initialState)
@@ -42,7 +47,11 @@ public class Algorithms {
         return getPath();
 
     }
-
+    private void  initializeMapAndSet(){
+        // initialize them as every function will rewrite on them
+        Parents =  new HashMap<State,State>();
+        Explored = new HashSet<State>();
+    }
     // TODO:: ALi
     public Stack<State> getPath() {
         // TODO return stack of parents push the goal and parent of the goal till the initial state
