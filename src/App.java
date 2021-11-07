@@ -17,12 +17,17 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("MainSceneController.fxml"));
+        final FXMLLoader loader = new FXMLLoader(
+      getClass().getResource(
+        "MainSceneController.fxml"
+      )
+    );
+        Parent root = (Parent) loader.load();
+        MainSceneController mainController = loader.getController(); 
+        mainController.initializeColors();
         screenMovable(stage,root);
         stage.initStyle(StageStyle.TRANSPARENT);
-        // primaryStage.setTitle("Hello World!");
-        // grab your root here
-         
+        
         Scene scene = new Scene(root);
         scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
         stage.setScene(scene);

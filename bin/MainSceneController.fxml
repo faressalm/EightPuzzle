@@ -33,8 +33,14 @@
 -->
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DisplacementMap?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.FloatMap?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -104,7 +110,7 @@
                   <Image url="@assets/0.png" />
                </image>
             </ImageView>
-            <TextField fx:id="inputSeq" layoutX="316.0" layoutY="76.0" onKeyPressed="#setInitialPuzlleIfEnter" opacity="0.88" prefHeight="25.0" prefWidth="141.0" promptText="Write Sequence " style="-fx-border-color: #0000; -fx-background-color: #9999; -fx-background-radius: 9;">
+            <TextField fx:id="inputSeq" layoutX="316.0" layoutY="62.0" onKeyPressed="#setInitialPuzlleIfEnter" opacity="0.88" prefHeight="25.0" prefWidth="141.0" promptText="Write Sequence " style="-fx-border-color: #0000; -fx-background-color: #9999; -fx-background-radius: 9;">
                <font>
                   <Font name="Bell MT Bold" size="14.0" />
                </font>
@@ -116,26 +122,62 @@
                   </DropShadow>
                </effect>
             </TextField>
-            <Button fx:id="solveDFS" layoutX="334.0" layoutY="156.0" mnemonicParsing="false" onAction="#evaluateDFS" prefHeight="31.0" prefWidth="105.0" style="-fx-background-color: #90EE90; -fx-background-radius: 9;" text="DFS" textFill="#0d1d70">
+            <Button fx:id="solveDFS" layoutX="334.0" layoutY="156.0" mnemonicParsing="false" onAction="#evaluateDFS" onMouseExited="#reChangeButtonColor" onMouseMoved="#changeButtonColor" prefHeight="31.0" prefWidth="105.0" style="-fx-background-color: #90EE90; -fx-background-radius: 9;" text="DFS" textFill="#0d1d70">
                <font>
                   <Font name="Century" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="solveAManhattan" layoutX="334.0" layoutY="284.0" mnemonicParsing="false" onAction="#evaluateAManhattan" prefHeight="31.0" prefWidth="105.0" style="-fx-background-color: #90EE90; -fx-background-radius: 9;" text="A* Manhattan" textFill="#0d1d70">
+            <Button fx:id="solveAManhattan" layoutX="334.0" layoutY="284.0" mnemonicParsing="false" onAction="#evaluateAManhattan" onMouseExited="#reChangeButtonColor" onMouseMoved="#changeButtonColor" prefHeight="31.0" prefWidth="105.0" style="-fx-background-color: #90EE90; -fx-background-radius: 9;" text="A* Manhattan" textFill="#0d1d70">
                <font>
                   <Font name="Century" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="solveAEculidean" layoutX="334.0" layoutY="242.0" mnemonicParsing="false" onAction="#evaluateAEuclidean" prefHeight="31.0" prefWidth="105.0" style="-fx-background-color: #90EE90; -fx-background-radius: 9;" text="A* Euclidean" textFill="#0d1d70">
+            <Button fx:id="solveAEculidean" layoutX="334.0" layoutY="242.0" mnemonicParsing="false" onAction="#evaluateAEuclidean" onMouseExited="#reChangeButtonColor" onMouseMoved="#changeButtonColor" prefHeight="31.0" prefWidth="105.0" style="-fx-background-color: #90EE90; -fx-background-radius: 9;" text="A* Euclidean" textFill="#0d1d70">
                <font>
                   <Font name="Century" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="solveBFS" layoutX="334.0" layoutY="200.0" mnemonicParsing="false" onAction="#evaluateBFS" prefHeight="31.0" prefWidth="105.0" style="-fx-background-color: #90EE90; -fx-background-radius: 9;" text="BFS" textFill="#0d1d70">
+            <Button fx:id="solveBFS" layoutX="334.0" layoutY="200.0" mnemonicParsing="false" onAction="#evaluateBFS" onMouseExited="#reChangeButtonColor" onMouseMoved="#changeButtonColor" prefHeight="31.0" prefWidth="105.0" style="-fx-background-color: #90EE90; -fx-background-radius: 9;" text="BFS" textFill="#0d1d70">
                <font>
                   <Font name="Century" size="12.0" />
                </font>
             </Button>
+            <Button fx:id="nextStip" layoutX="208.0" layoutY="385.0" mnemonicParsing="false" onAction="#nextStepInPath" prefHeight="31.0" prefWidth="79.0" style="-fx-background-radius: 15;" text="Next Step" textAlignment="CENTER">
+               <font>
+                  <Font name="Kristen ITC" size="10.0" />
+               </font>
+            </Button>
+            <Label layoutX="360.0" layoutY="89.0" prefHeight="40.0" prefWidth="54.0" text="Solve" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Colonna MT" size="23.0" />
+               </font>
+               <effect>
+                  <DisplacementMap>
+                     <mapData>
+                        <FloatMap />
+                     </mapData>
+                     <input>
+                        <Lighting>
+                           <bumpInput>
+                              <Shadow radius="11.9475" width="28.79">
+                                 <color>
+                                    <Color red="0.5438596606254578" green="0.30550140142440796" blue="0.30550140142440796" opacity="0.949999988079071" />
+                                 </color>
+                              </Shadow>
+                           </bumpInput>
+                           <light>
+                              <Light.Distant />
+                           </light>
+                        </Lighting>
+                     </input>
+                  </DisplacementMap>
+               </effect>
+            </Label>
+            <ImageView fitHeight="19.0" fitWidth="31.0" layoutX="377.0" layoutY="129.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/drop_down_circle.png" />
+               </image>
+            </ImageView>
          </children></AnchorPane>
    </children>
 </AnchorPane>

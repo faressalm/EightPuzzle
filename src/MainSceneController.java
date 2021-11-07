@@ -1,12 +1,21 @@
+import java.beans.EventHandler;
+import java.time.Duration;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import classes.Algorithms;
 import classes.State;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -14,6 +23,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -21,7 +31,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class MainSceneController {
-
     @FXML
     private AnchorPane body;
 
@@ -39,6 +48,9 @@ public class MainSceneController {
 
     @FXML
     private TextField inputSeq;
+
+    @FXML
+    private Button nextStip;
 
     @FXML
     private ImageView oneBox;
@@ -79,6 +91,8 @@ public class MainSceneController {
     private State state = new State((long) 13438895736L);
     private Stack<State> path;
     private Algorithms algorithm;
+    Map<Button, Boolean> clickedButtons;
+    Timeline timeline;
 
     public MainSceneController() {
         algorithm = new Algorithms();
@@ -86,14 +100,16 @@ public class MainSceneController {
 
     @FXML
     void evaluateDFS(ActionEvent event) {
+
         initializeState();
+        setClickedColor(event);
         // path =algorithm.DFS(state);
         path = new Stack<State>();
         path.push(new State("564123078"));
         path.push(new State("564023178"));
         path.push(new State("564203178"));
         path.push(new State("564230178"));
-        path.push(state);// 560234178
+        // path.push(state);// 560234178
 
         buildPath();
     }
@@ -101,24 +117,35 @@ public class MainSceneController {
     @FXML
     void evaluateBFS(ActionEvent event) {
         initializeState();
+        setClickedColor(event);
         path = algorithm.BFS(state);
     }
 
     @FXML
     void evaluateAEuclidean(ActionEvent event) {
         initializeState();
+        setClickedColor(event);
         path = algorithm.AStarEuclideanDistance(state);
     }
 
     @FXML
     void evaluateAManhattan(ActionEvent event) {
         initializeState();
+        setClickedColor(event);
         path = algorithm.AStarManhattanDistance(state);
     }
+    
+    private void initializeState() {
+        timeline = new Timeline();
+        String textState = inputSeq.getText();
+        if (inputTextIsValid(textState)) {
+            state = new State(textState);
+            updateBoxes();
+        }
 
+    }
     @FXML
     void closeWindowAction(MouseEvent event) {
-        System.out.println(((Node) event.getSource()).getId());
         Stage stage = (Stage) closeWindow.getScene().getWindow();
         stage.close();
     }
@@ -131,25 +158,47 @@ public class MainSceneController {
 
     }
 
-    private void initializeState() {
-        String textState = inputSeq.getText();
-        if (inputTextIsValid(textState)) {
-            state = new State(textState);
+    @FXML
+    void nextStepInPath(ActionEvent event) {
+        buildPath();
+    }
+
+    @FXML
+    void changeButtonColor(MouseEvent event) {
+        Node button = ((Node) event.getSource());
+        button.setStyle("-fx-background-color: #E7E7E7; -fx-background-radius: 9");
+    }
+
+    @FXML
+    void reChangeButtonColor(MouseEvent event) {
+        Node button = ((Node) event.getSource());
+        if (clickedButtons.get(button) == false)
+            button.setStyle("-fx-background-color: #90EE90; -fx-background-radius: 9");
+    }
+
+    private void setClickedColor(ActionEvent event) {
+        for (Map.Entry<Button, Boolean> entry : clickedButtons.entrySet()) {
+            clickedButtons.put(entry.getKey(), false);
+            entry.getKey().setStyle("-fx-background-color: #90EE90; -fx-background-radius: 9");
+        }
+        clickedButtons.put(((Button) event.getSource()), true);
+        ((Button) event.getSource()).setStyle("-fx-background-color: #E7E7E7; -fx-background-radius: 9");
+
+    }
+
+    private void buildPath() {
+        if (!path.isEmpty()) {
+            state = path.pop();
             updateBoxes();
         }
     }
 
-    private void updateBoxes() {
-        int[][] arr = state.formatToTwoD();
-        spaceBox.setImage(getNewImageByNumber(arr[0][0]));
-        oneBox.setImage(getNewImageByNumber(arr[0][1]));
-        twoBox.setImage(getNewImageByNumber(arr[0][2]));
-        threeBox.setImage(getNewImageByNumber(arr[1][0]));
-        fourBox.setImage(getNewImageByNumber(arr[1][1]));
-        fiveBox.setImage(getNewImageByNumber(arr[1][2]));
-        sixBox.setImage(getNewImageByNumber(arr[2][0]));
-        sevenBox.setImage(getNewImageByNumber(arr[2][1]));
-        eightBox.setImage(getNewImageByNumber(arr[2][2]));
+
+    public void initializeColors() {
+        clickedButtons = Stream
+                .of(new Object[][] { { solveDFS, false }, { solveBFS, false }, { solveAEculidean, false },
+                        { solveAManhattan, false }, })
+                .collect(Collectors.toMap(data -> (Button) data[0], data -> (Boolean) data[1]));
     }
 
     private Image getNewImageByNumber(int number) {
@@ -179,19 +228,16 @@ public class MainSceneController {
         }
     }
 
-    private void buildPath() {
-        int pathlenght = path.size();
-        for (int i = 0; i < pathlenght;i++) {
-            state = path.pop();
-
-            try {
-                TimeUnit.SECONDS.sleep(2);
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            System.out.println(state.setStateToString());
-            updateBoxes();
-        }
+    private void updateBoxes() {
+        int[][] arr = state.formatToTwoD();
+        spaceBox.setImage(getNewImageByNumber(arr[0][0]));
+        oneBox.setImage(getNewImageByNumber(arr[0][1]));
+        twoBox.setImage(getNewImageByNumber(arr[0][2]));
+        threeBox.setImage(getNewImageByNumber(arr[1][0]));
+        fourBox.setImage(getNewImageByNumber(arr[1][1]));
+        fiveBox.setImage(getNewImageByNumber(arr[1][2]));
+        sixBox.setImage(getNewImageByNumber(arr[2][0]));
+        sevenBox.setImage(getNewImageByNumber(arr[2][1]));
+        eightBox.setImage(getNewImageByNumber(arr[2][2]));
     }
 }
