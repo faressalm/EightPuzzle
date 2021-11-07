@@ -11,7 +11,9 @@ public class State {
     public long getCurrentState() {
         return currentState;
     }
-
+    public State(String state) {
+        setStateLong(state);
+    }
     public void setCurrentState(long currentState) {
         this.currentState = currentState;
     }
@@ -37,7 +39,7 @@ public class State {
         return state;
     }
 
-    int[][] formatToTwoD() {
+   public  int[][] formatToTwoD() {
         int[][] arr = new int[3][3];
         int idx = 0;
         String state = setStateToString();
@@ -53,7 +55,7 @@ public class State {
         return arr;
     }
 
-    String getStringFromTwoD(int[][] arr) {
+    public  String getStringFromTwoD(int[][] arr) {
         String state = "";
         for (int i = 0; i < 3; i++)
             for (int j = 0; j < 3; j++)

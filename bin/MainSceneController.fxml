@@ -32,9 +32,14 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="516.0" prefWidth="488.0" style="-fx-background-color: #0000;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainSceneController">
    <children>
@@ -91,14 +96,46 @@
             </ImageView>
             <ImageView fx:id="oneBox" fitHeight="70.0" fitWidth="70.0" layoutX="104.0" layoutY="130.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@assets/one.png" />
+                  <Image url="@assets/1.png" />
                </image>
             </ImageView>
             <ImageView fx:id="spaceBox" fitHeight="70.0" fitWidth="70.0" layoutX="29.0" layoutY="130.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@assets/empty.png" />
+                  <Image url="@assets/0.png" />
                </image>
             </ImageView>
+            <TextField fx:id="inputSeq" layoutX="316.0" layoutY="76.0" onKeyPressed="#setInitialPuzlleIfEnter" opacity="0.88" prefHeight="25.0" prefWidth="141.0" promptText="Write Sequence " style="-fx-border-color: #0000; -fx-background-color: #9999; -fx-background-radius: 9;">
+               <font>
+                  <Font name="Bell MT Bold" size="14.0" />
+               </font>
+               <effect>
+                  <DropShadow>
+                     <color>
+                        <Color red="0.7105262875556946" green="0.7105262875556946" blue="0.7105262875556946" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </TextField>
+            <Button fx:id="solveDFS" layoutX="334.0" layoutY="156.0" mnemonicParsing="false" onAction="#evaluateDFS" prefHeight="31.0" prefWidth="105.0" style="-fx-background-color: #90EE90; -fx-background-radius: 9;" text="DFS" textFill="#0d1d70">
+               <font>
+                  <Font name="Century" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="solveAManhattan" layoutX="334.0" layoutY="284.0" mnemonicParsing="false" onAction="#evaluateAManhattan" prefHeight="31.0" prefWidth="105.0" style="-fx-background-color: #90EE90; -fx-background-radius: 9;" text="A* Manhattan" textFill="#0d1d70">
+               <font>
+                  <Font name="Century" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="solveAEculidean" layoutX="334.0" layoutY="242.0" mnemonicParsing="false" onAction="#evaluateAEuclidean" prefHeight="31.0" prefWidth="105.0" style="-fx-background-color: #90EE90; -fx-background-radius: 9;" text="A* Euclidean" textFill="#0d1d70">
+               <font>
+                  <Font name="Century" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="solveBFS" layoutX="334.0" layoutY="200.0" mnemonicParsing="false" onAction="#evaluateBFS" prefHeight="31.0" prefWidth="105.0" style="-fx-background-color: #90EE90; -fx-background-radius: 9;" text="BFS" textFill="#0d1d70">
+               <font>
+                  <Font name="Century" size="12.0" />
+               </font>
+            </Button>
          </children></AnchorPane>
    </children>
 </AnchorPane>

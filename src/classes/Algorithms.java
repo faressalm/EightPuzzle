@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.Stack;
 
 public class Algorithms {
-    private State goal = new State(305419896);
+    private State goal = new State(305419896L);
     private Map<State, State> Parents;
     private Set<State> Explored;
     // TODO:: ALi
