@@ -1,6 +1,6 @@
 package classes;
 
-public class State {
+public class State  {
 
     private long currentState;
     private int zeroRow, zeroColumn;// TODO:: put getter to them 
@@ -70,5 +70,12 @@ public class State {
             for (int j = 0; j < 3; j++)
                 state = state + (char) (arr[i][j] + '0');
         return state;
+    }
+
+    public  boolean equals(Object x) {
+        return  ( currentState == ( (State) x ).getCurrentState() );
+    }
+    public  int hashCode() {
+       return  Long.hashCode(currentState);
     }
 }

@@ -1,17 +1,19 @@
 package classes;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 
 public class test {
-
+    public int compareTo(State x , State y ) {
+        return Long.compare( y.getCurrentState() , x.getCurrentState() )  ;
+    }
     public static void main(String[] args) {
      Algorithms a = new Algorithms();
      State s = new State("123456780") ;
-        ArrayList<State> arr = new ArrayList<>() ;
-        arr = a.getNeighbors(s) ;
-        for(State x : arr ){
-            System.out.println( x.setStateToString() );
-        }
+     State x = new State("123456780") ;
+     HashSet<State > Explored = new HashSet<State>();
+     Explored.add(x) ;
+     Explored.add(s) ;
+        System.out.println( Explored.size() );
     }
 
 }
