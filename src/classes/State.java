@@ -5,8 +5,19 @@ public class State {
     private long currentState;
     private int zeroRow, zeroColumn;// TODO:: put getter to them 
 
+    public int getZeroRow() {
+        return zeroRow;
+    }
+
+    public int getZeroColumn() {
+        return zeroColumn;
+    }
+
     public State(long currentState) {
         this.currentState = currentState;
+    }
+    public State(String currentState) {
+        setStateLong(currentState);
     }
     public long getCurrentState() {
         return currentState;

@@ -1,10 +1,6 @@
 package classes;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.Stack;
+import java.util.*;
 
 public class Algorithms {
     private State goal = new State(305419896);
@@ -16,7 +12,39 @@ public class Algorithms {
         // TODO:: Implement DFS algorithm
         return getPath(); 
     }
-
+  void swap ( int arr[][] , int i, int j , int x , int y  ){
+     int tmp = arr[i][j] ;
+     arr[i][j] = arr[x][y] ;
+     arr[x][y] = tmp ;
+  }
+  State create(String x ){
+        return new State(x) ;
+  }
+   public   ArrayList<State>  getNeighbors( State x  ){
+        ArrayList<State> adj  = new ArrayList<>();
+        int[][] arr = x.formatToTwoD() ;
+        if (   x.getZeroRow() > 0 ){
+            swap( arr , x.getZeroRow() , x.getZeroColumn() , x.getZeroRow() - 1, x.getZeroColumn()  );
+            adj.add(  create(x.getStringFromTwoD(arr))  ) ;
+            swap( arr , x.getZeroRow() , x.getZeroColumn() , x.getZeroRow() - 1, x.getZeroColumn()  );
+         }
+        if ( x.getZeroColumn() > 0 ){
+            swap( arr , x.getZeroRow() , x.getZeroColumn() , x.getZeroRow() , x.getZeroColumn() - 1 );
+            adj.add(  create(x.getStringFromTwoD(arr))  ) ;
+            swap( arr , x.getZeroRow() , x.getZeroColumn() , x.getZeroRow() , x.getZeroColumn() - 1  );
+        }
+        if ( x.getZeroRow() < 2  ){
+            swap( arr , x.getZeroRow() , x.getZeroColumn() , x.getZeroRow() + 1, x.getZeroColumn()  );
+            adj.add(  create(x.getStringFromTwoD(arr))  ) ;
+            swap( arr , x.getZeroRow() , x.getZeroColumn() , x.getZeroRow() + 1, x.getZeroColumn()  );
+        }
+       if ( x.getZeroColumn() < 2 ){
+           swap( arr , x.getZeroRow() , x.getZeroColumn() , x.getZeroRow() , x.getZeroColumn() + 1 );
+           adj.add(  create(x.getStringFromTwoD(arr))  ) ;
+           swap( arr , x.getZeroRow() , x.getZeroColumn() , x.getZeroRow() , x.getZeroColumn() + 1  );
+       }
+        return  adj ;
+    }
     // TODO:: Basel
     public Stack<State> BFS(State initialState) {
         initializeMapAndSet();
