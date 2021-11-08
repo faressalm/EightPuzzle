@@ -1,6 +1,6 @@
 package classes;
 
-import java.util.HashSet;
+import java.util.Stack;
 
 public class test {
     public int compareTo(State x , State y ) {
@@ -8,12 +8,17 @@ public class test {
     }
     public static void main(String[] args) {
      Algorithms a = new Algorithms();
-     State s = new State("123456780") ;
-     State x = new State("123456780") ;
-     HashSet<State > Explored = new HashSet<State>();
-     Explored.add(x) ;
-     Explored.add(s) ;
-        System.out.println( Explored.size() );
+     State s = new State("125340678") ;
+     Stack<Long> path  = new Stack<>();
+     path = a.DFS(s.getCurrentState()) ;
+     System.out.println(a.explored.size());
+     System.out.println(path.size());
+     while( !path.empty() ){
+         Long x = path.pop() ;
+         s.setCurrentState(x) ;
+         System.out.println( s.setStateToString() ) ;
+       }
+
     }
 
 }

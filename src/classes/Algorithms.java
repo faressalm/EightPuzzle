@@ -3,71 +3,94 @@ package classes;
 import java.util.*;
 
 public class Algorithms {
-    private State goal = new State(305419896);
-    private Map<State, State> Parents;
-    private Set<State> Explored;
-    // TODO:: ALi
-    public Stack<State> DFS(State initialState) {
-        initializeMapAndSet();
-        // TODO:: Implement DFS algorithm
-        return getPath(); 
+    private final  Long goal = 305419896L ;
+    public Map<Long, Long> parents;
+    public Set<Long> explored;
+    private  State state ;
+
+    public Algorithms() {
+        state = new State() ;
     }
-  void swap ( int arr[][] , int i, int j , int x , int y  ){
-     int tmp = arr[i][j] ;
-     arr[i][j] = arr[x][y] ;
-     arr[x][y] = tmp ;
-  }
-  State create(String x ){
-        return new State(x) ;
-  }
-   public   ArrayList<State>  getNeighbors( State x  ){
-        ArrayList<State> adj  = new ArrayList<>();
-        int[][] arr = x.formatToTwoD() ;
-        if (   x.getZeroRow() > 0 ){
-            swap( arr , x.getZeroRow() , x.getZeroColumn() , x.getZeroRow() - 1, x.getZeroColumn()  );
-            adj.add(  create(x.getStringFromTwoD(arr))  ) ;
-            swap( arr , x.getZeroRow() , x.getZeroColumn() , x.getZeroRow() - 1, x.getZeroColumn()  );
-         }
-        if ( x.getZeroColumn() > 0 ){
-            swap( arr , x.getZeroRow() , x.getZeroColumn() , x.getZeroRow() , x.getZeroColumn() - 1 );
-            adj.add(  create(x.getStringFromTwoD(arr))  ) ;
-            swap( arr , x.getZeroRow() , x.getZeroColumn() , x.getZeroRow() , x.getZeroColumn() - 1  );
+    private  void swap ( int arr[][] , int i, int j , int x , int y  ){
+        int tmp = arr[i][j] ;
+        arr[i][j] = arr[x][y] ;
+        arr[x][y] = tmp ;
+    }
+    private Long getMove(int arr[][] , int i , int j , int x , int y ){
+        swap( arr , i, j , x, y );
+        Long s =   state.setStateLong( state.getStringFromTwoD(arr) )    ;
+        swap( arr , i, j , x , y );
+        return s ;
+    }
+    public   ArrayList<Long>  getNeighbors(){
+        ArrayList<Long> adj  = new ArrayList<>();
+        int[][] arr = state.formatToTwoD() ; // set zeroRow & zeroColumn .
+        if (   state.getZeroRow() > 0 ){
+            adj.add( getMove(arr , state.getZeroRow() , state.getZeroColumn() , state.getZeroRow() - 1 , state.getZeroColumn() ) )  ;
         }
-        if ( x.getZeroRow() < 2  ){
-            swap( arr , x.getZeroRow() , x.getZeroColumn() , x.getZeroRow() + 1, x.getZeroColumn()  );
-            adj.add(  create(x.getStringFromTwoD(arr))  ) ;
-            swap( arr , x.getZeroRow() , x.getZeroColumn() , x.getZeroRow() + 1, x.getZeroColumn()  );
+        if ( state.getZeroColumn() > 0 ){
+            adj.add( getMove(arr , state.getZeroRow() , state.getZeroColumn() , state.getZeroRow()  , state.getZeroColumn()  - 1) )  ;
         }
-       if ( x.getZeroColumn() < 2 ){
-           swap( arr , x.getZeroRow() , x.getZeroColumn() , x.getZeroRow() , x.getZeroColumn() + 1 );
-           adj.add(  create(x.getStringFromTwoD(arr))  ) ;
-           swap( arr , x.getZeroRow() , x.getZeroColumn() , x.getZeroRow() , x.getZeroColumn() + 1  );
-       }
+        if ( state.getZeroRow() < 2  ){
+            adj.add( getMove(arr , state.getZeroRow() , state.getZeroColumn() , state.getZeroRow() + 1 , state.getZeroColumn() ) )  ;
+        }
+        if ( state.getZeroColumn() < 2 ){
+            adj.add( getMove(arr , state.getZeroRow() , state.getZeroColumn() , state.getZeroRow()  , state.getZeroColumn()  + 1) )  ;
+        }
         return  adj ;
     }
+    private void dfs(Long s ){
+         Stack <Long> st = new Stack<>() ;
+         explored.add(s) ;
+         st.push(s) ;
+         while( !st.empty() ){
+             Long x = st.pop() ;
+             if( x.equals(goal) ) break;
+             state.setCurrentState(x); // update the instance of state.
+             ArrayList<Long> adj = getNeighbors() ;
+             for(Long next : adj ){
+                 if(  !explored.contains(next) ){
+                     parents.put(next , x ) ;
+                     explored.add(next) ;
+                     st.push(next) ;
+                 }
+             }
+         }
+    }
+
+    public Long getLong(String state){
+        this.state.setStateLong(state);
+        return  this.state.getCurrentState() ;
+    }
+    public Stack<Long> DFS(Long initialState) {
+        initializeMapAndSet( initialState );
+        dfs(initialState) ;
+        return getPath(); 
+    }
+
     // TODO:: Basel
-    public Stack<State> BFS(State initialState) {
-        initializeMapAndSet();
+    public Stack<Long> BFS(Long initialState) {
+        initializeMapAndSet(initialState);
         // TODO:: Implement BFS algorithm
         return getPath();
 
     }
 
     // TODO:: Man3am
-    public Stack<State> AStarManhattanDistance(State initialState) {
+    public Stack<Long> AStarManhattanDistance(Long initialState) {
         return Astar(initialState, new ManhattanDistance());
 
     }
 
     // TODO:: Man3am
-    public Stack<State> AStarEuclideanDistance(State initialState) {
+    public Stack<Long> AStarEuclideanDistance(Long initialState) {
         return Astar(initialState, new EuclideanDistance());
 
     }
 
     // TODO:: Man3am
-    public Stack<State> Astar(State initialState, Heuristics heuristics) {
-        initializeMapAndSet();
+    public Stack<Long> Astar(Long initialState, Heuristics heuristics) {
+        initializeMapAndSet(initialState);
         // TODO:: Implement Astar algorithm
         /**
          * to calculate the heuristics -> heuristics.call(initialState)
@@ -75,16 +98,23 @@ public class Algorithms {
         return getPath();
 
     }
-    private void  initializeMapAndSet(){
+    private void  initializeMapAndSet(Long initialState){
         // initialize them as every function will rewrite on them
-        Parents =  new HashMap<State,State>();
-        Explored = new HashSet<State>();
-    }
-    // TODO:: ALi
-    public Stack<State> getPath() {
-        // TODO return stack of parents push the goal and parent of the goal till the initial state
-        return null; 
+        parents =  new HashMap<Long,Long>();
+        explored = new HashSet<Long>();
+        parents.put(initialState , null )  ;
 
+    }
+
+    private Stack<Long> getPath() {
+        Stack<Long> path  = new Stack<>();
+        if ( !parents.containsKey(goal) ) return path ;
+         Long state = goal ;
+        while(state != null ){
+            path.push(state) ;
+            state = parents.get(state) ;
+        }
+        return path ;
     }
 
     // TODO:: Man3am

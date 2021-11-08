@@ -2,9 +2,12 @@ package classes;
 
 public class State  {
 
-    private long currentState;
-    private int zeroRow, zeroColumn;// TODO:: put getter to them 
+    private Long currentState;
+    private int zeroRow, zeroColumn;// TODO:: put getter to them
 
+    public State() {
+
+    }
     public int getZeroRow() {
         return zeroRow;
     }
@@ -13,13 +16,13 @@ public class State  {
         return zeroColumn;
     }
 
-    public State(long currentState) {
+    public State(Long currentState) {
         this.currentState = currentState;
     }
     public State(String currentState) {
-        setStateLong(currentState);
+        this.currentState = setStateLong(currentState);
     }
-    public long getCurrentState() {
+    public Long getCurrentState() {
         return currentState;
     }
 
@@ -27,13 +30,14 @@ public class State  {
         this.currentState = currentState;
     }
 
-    public void setStateLong(String state) {
-        currentState = 0;
+    public Long setStateLong(String state) {
+        Long tmpState = 0L ;
         for (int i = 0; i < state.length(); i++) {
-            currentState += (state.charAt(i) - '0');
-            currentState <<= 4;
+            tmpState += (state.charAt(i) - '0');
+            tmpState <<= 4;
         }
-        currentState >>= 4;
+        tmpState >>= 4;
+        return tmpState ;
     }
 
     public String setStateToString() {
@@ -72,10 +76,10 @@ public class State  {
         return state;
     }
 
-    public  boolean equals(Object x) {
+    /*public  boolean equals(Object x) {
         return  ( currentState == ( (State) x ).getCurrentState() );
     }
     public  int hashCode() {
        return  Long.hashCode(currentState);
-    }
+    }*/
 }
