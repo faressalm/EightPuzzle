@@ -3,7 +3,7 @@ package classes;
 public class State  {
 
     private Long currentState;
-    private int zeroRow, zeroColumn;// TODO:: put getter to them
+    private int zeroRow, zeroColumn;
 
     public State() {
 
