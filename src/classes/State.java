@@ -4,6 +4,8 @@ public class State  {
 
     private Long currentState;
     private int zeroRow, zeroColumn;
+    private double stateCost;// used by A*
+    private int pathCost;// used by A*
 
     public State() {
 
@@ -76,10 +78,25 @@ public class State  {
         return state;
     }
 
-    /*public  boolean equals(Object x) {
+    public double getStateCost() {
+        return stateCost;
+    }
+
+    public void setStateCost(double stateCost) {
+        this.stateCost = stateCost;
+    }
+
+    public int getPathCost() {
+        return pathCost;
+    }
+
+    public void setPathCost(int pathCost) {
+        this.pathCost = pathCost;
+    }
+    public  boolean equals(Object x) {
         return  ( currentState == ( (State) x ).getCurrentState() );
     }
     public  int hashCode() {
-       return  Long.hashCode(currentState);
-    }*/
+            return  Long.hashCode(currentState);
+    }
 }

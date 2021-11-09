@@ -7,6 +7,7 @@ public class Algorithms {
     public Map<Long, Long> parents;
     public Set<Long> explored;
     private State state;
+    private int maxDepth;
 
     public Algorithms() {
         state = new State();
@@ -83,10 +84,10 @@ public class Algorithms {
         // Queue to store frontier
         Queue<Long> frontier = new LinkedList<Long>();
         frontier.add(initialState);
-
+        explored.add(initialState);
+        
         while (!frontier.isEmpty()) {
             Long stateLong = frontier.poll();
-            explored.add(stateLong);
 
             // Stop if goal is reached
             if (stateLong.equals(goal))
@@ -96,36 +97,70 @@ public class Algorithms {
             ArrayList<Long> neighbors = getNeighbors();
             for (Long neighbor : neighbors) {
                 // Add neighbor states if only not in frontier & explored lists
-                if (!frontier.contains(neighbor) && !explored.contains(neighbor)) {
+                if (!explored.contains(neighbor)) {
                     parents.put(neighbor, stateLong);
                     frontier.add(neighbor);
+                    explored.add(neighbor);
                 }
             }
         }
         return getPath();
     }
 
-    // TODO:: Man3am
-    public Stack<Long> AStarManhattanDistance(Long initialState) {
-        return Astar(initialState, new ManhattanDistance());
+    public Stack<Long> AStarManhattanDistance(State initialState) {
+        return AStar(initialState, new ManhattanDistance());
 
     }
 
-    // TODO:: Man3am
-    public Stack<Long> AStarEuclideanDistance(Long initialState) {
-        return Astar(initialState, new EuclideanDistance());
+    public Stack<Long> AStarEuclideanDistance(State initialState) {
+        return AStar(initialState, new EuclideanDistance());
 
     }
 
-    // TODO:: Man3am
-    public Stack<Long> Astar(Long initialState, Heuristics heuristics) {
-        initializeMapAndSet(initialState);
-        // TODO:: Implement Astar algorithm
-        /**
-         * to calculate the heuristics -> heuristics.call(initialState)
-         */
+    public Stack<Long> AStar(State initialState, Heuristics heuristics) {
+        initializeMapAndSet(initialState.getCurrentState());
+        PriorityQueue<State> frontier = new PriorityQueue<State>(Comparator.comparing(State::getStateCost));
+        Map<String, State> auxFrontier = new HashMap<String, State>();
+        initialState.setStateCost(0);
+        initialState.setPathCost(0);
+        frontier.add(initialState);
+        auxFrontier.put(initialState.setStateToString(), initialState);
+        while (!frontier.isEmpty()) {
+            State stateToCheck = frontier.poll();
+            explored.add(stateToCheck.getCurrentState());
+            if (goal.equals(stateToCheck.getCurrentState())) {
+                return getPath();
+            }
+            state.setCurrentState(stateToCheck.getCurrentState());
+            ArrayList<Long> neighborsLong = getNeighbors();
+            ArrayList<State> neighbors = new ArrayList<>();
+            for (Long x : neighborsLong){
+                State temp = new State(x);
+                neighbors.add(temp);
+            }
+            for (State neighbor : neighbors) {
+                int g = stateToCheck.getPathCost() + 1;
+                double f = heuristics.call(neighbor) + g;
+                maxDepth = Math.max(g,maxDepth);
+                neighbor.setPathCost(g);
+                neighbor.setStateCost(f);
+            }
+            for (State neighbor : neighbors) {
+                if (!frontier.contains(neighbor) && !explored.contains(neighbor.getCurrentState())) {
+                    parents.put(neighbor.getCurrentState(), stateToCheck.getCurrentState());
+                    frontier.add(neighbor);
+                    auxFrontier.put(neighbor.setStateToString(), neighbor);
+                } else if (frontier.contains(neighbor)) {
+                    State temp = auxFrontier.get(neighbor.setStateToString());
+                    if (temp.getStateCost() > neighbor.getStateCost()) {
+                        parents.put(temp.getCurrentState(), stateToCheck.getCurrentState());
+                        frontier.remove(temp);
+                        frontier.add(neighbor);
+                    }
+                }
+            }
+        }
         return getPath();
-
     }
 
     private void initializeMapAndSet(Long initialState) {
@@ -133,6 +168,7 @@ public class Algorithms {
         parents = new HashMap<Long, Long>();
         explored = new HashSet<Long>();
         parents.put(initialState, null);
+        maxDepth = 0;
 
     }
 
@@ -148,29 +184,43 @@ public class Algorithms {
         return path;
     }
 
-    // TODO:: Man3am
     private class ManhattanDistance implements Heuristics {
-
         @Override
-        public void call(State state) {
-            // TODO:: get ManhattanDistance between this sate and goal which defined in the
-            // top class
-            // TODO :: h = abs(current cell:x - goal:x) + abs(current cell:y - goal:y)
-
+        public double call(State state) {
+            int[][] goalLocations = {{0, 0}, {0, 1}, {0, 2}, {1, 0}, {1, 1}, {1, 2}, {2, 0}, {2, 1}, {2, 2}};
+            int[][] stateTowD = state.formatToTwoD();
+            int totalManhattanDistance = 0;
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    int tempToCompare = stateTowD[i][j];
+                    totalManhattanDistance += Math.abs(i - goalLocations[tempToCompare][0]) + Math.abs(j - goalLocations[tempToCompare][1]);
+                }
+            }
+            return totalManhattanDistance;
         }
 
     }
 
-    // TODO:: Man3am
     private class EuclideanDistance implements Heuristics {
-
         @Override
-        public void call(State state) {
-            // TODO:: get ManhattanDistance between this sate and goal which defined in the
-            // top class
-            // TODO :: h = sqrt((current cell:x - goal:x)2+ (current cell.y - goal:y)2)
-
+        public double call(State state) {
+            int[][] goalLocations = {{0, 0}, {0, 1}, {0, 2}, {1, 0}, {1, 1}, {1, 2}, {2, 0}, {2, 1}, {2, 2}};
+            int[][] stateTowD = state.formatToTwoD();
+            double totalEuclideanDistance = 0;
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    int tempToCompare = stateTowD[i][j];
+                    totalEuclideanDistance += Math.sqrt(Math.pow(Math.abs(i - goalLocations[tempToCompare][0]), 2) + Math.pow(Math.abs(j - goalLocations[tempToCompare][1]), 2));
+                }
+            }
+            return totalEuclideanDistance;
         }
     }
+    public int getMaxDepth() {
+        return maxDepth;
+    }
 
+    public void setMaxDepth(int maxDepth) {
+        this.maxDepth = maxDepth;
+    }
 }
