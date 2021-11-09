@@ -50,10 +50,13 @@ public class Algorithms {
 
     private void dfs(Long s) {
         Stack<Long> st = new Stack<>();
+        Stack<Integer> depths = new Stack<Integer>();
+        depths.push(0) ;
         explored.add(s);
         st.push(s);
         while (!st.empty()) {
             Long x = st.pop();
+            int depth = depths.pop();
             if (x.equals(goal))
                 break;
             state.setCurrentState(x); // update the instance of state.
@@ -63,6 +66,8 @@ public class Algorithms {
                     parents.put(next, x);
                     explored.add(next);
                     st.push(next);
+                    depths.push(depth + 1) ;
+                    maxDepth = Math.max(maxDepth , depth  + 1) ;
                 }
             }
         }
