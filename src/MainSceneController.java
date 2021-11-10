@@ -18,6 +18,7 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -33,6 +34,9 @@ import javafx.stage.Stage;
 public class MainSceneController {
     @FXML
     private AnchorPane body;
+
+    @FXML
+    private Label stepsNum;
 
     @FXML
     private ImageView closeWindow;
@@ -91,6 +95,7 @@ public class MainSceneController {
     private State state = new State((long) 13438895736L);
     private Stack<State> path;
     private Algorithms algorithm;
+    private int steps;
     Map<Button, Boolean> clickedButtons;
     Timeline timeline;
 
@@ -99,42 +104,34 @@ public class MainSceneController {
     }
 
     @FXML
-    void evaluateDFS(ActionEvent event) {
+    void solver(ActionEvent event) {
 
         initializeState();
         setClickedColor(event);
-        // path =algorithm.DFS(state);
-        path = new Stack<State>();
-        path.push(new State("564123078"));
-        path.push(new State("564023178"));
-        path.push(new State("564203178"));
-        path.push(new State("564230178"));
-        // path.push(state);// 560234178
 
-        buildPath();
-    }
-
-    @FXML
-    void evaluateBFS(ActionEvent event) {
-        initializeState();
-        setClickedColor(event);
-        path = algorithm.BFS(state);
-    }
-
-    @FXML
-    void evaluateAEuclidean(ActionEvent event) {
-        initializeState();
-        setClickedColor(event);
+        String buttonType = ((Node) event.getSource()).getId();
+        if(buttonType == "solveDFS")
+        path =algorithm.DFS(state);
+        else if(buttonType == "solveAEculidean")
         path = algorithm.AStarEuclideanDistance(state);
-    }
-
-    @FXML
-    void evaluateAManhattan(ActionEvent event) {
-        initializeState();
-        setClickedColor(event);
+        else if(buttonType == "solveAManhattan")
         path = algorithm.AStarManhattanDistance(state);
+        else if(buttonType == "solveBFS")
+        path = algorithm.BFS(state);
+
+        if(path==null ||path.isEmpty())
+        stepsNum.setText("No Solution");
+        else{
+            steps=path.size();
+            changeSteps();
+            buildPath();
+        }
+        
     }
-    
+    private void changeSteps(){
+
+        stepsNum.setText(Integer.toString(steps));
+    }
     private void initializeState() {
         timeline = new Timeline();
         String textState = inputSeq.getText();
@@ -188,11 +185,14 @@ public class MainSceneController {
 
     private void buildPath() {
         if (!path.isEmpty()) {
+            steps--;
+            changeSteps();
+
             state = path.pop();
             updateBoxes();
         }
     }
-
+    
 
     public void initializeColors() {
         clickedButtons = Stream

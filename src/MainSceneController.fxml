@@ -122,22 +122,22 @@
                   </DropShadow>
                </effect>
             </TextField>
-            <Button fx:id="solveDFS" layoutX="334.0" layoutY="156.0" mnemonicParsing="false" onAction="#evaluateDFS" onMouseExited="#reChangeButtonColor" onMouseMoved="#changeButtonColor" prefHeight="31.0" prefWidth="105.0" style="-fx-background-color: #90EE90; -fx-background-radius: 9;" text="DFS" textFill="#0d1d70">
+            <Button fx:id="solveDFS" layoutX="334.0" layoutY="156.0" mnemonicParsing="false" onAction="#solver" onMouseExited="#reChangeButtonColor" onMouseMoved="#changeButtonColor" prefHeight="31.0" prefWidth="105.0" style="-fx-background-color: #90EE90; -fx-background-radius: 9;" text="DFS" textFill="#0d1d70">
                <font>
                   <Font name="Century" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="solveAManhattan" layoutX="334.0" layoutY="284.0" mnemonicParsing="false" onAction="#evaluateAManhattan" onMouseExited="#reChangeButtonColor" onMouseMoved="#changeButtonColor" prefHeight="31.0" prefWidth="105.0" style="-fx-background-color: #90EE90; -fx-background-radius: 9;" text="A* Manhattan" textFill="#0d1d70">
+            <Button fx:id="solveAManhattan" layoutX="334.0" layoutY="284.0" mnemonicParsing="false" onAction="#solver" onMouseExited="#reChangeButtonColor" onMouseMoved="#changeButtonColor" prefHeight="31.0" prefWidth="105.0" style="-fx-background-color: #90EE90; -fx-background-radius: 9;" text="A* Manhattan" textFill="#0d1d70">
                <font>
                   <Font name="Century" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="solveAEculidean" layoutX="334.0" layoutY="242.0" mnemonicParsing="false" onAction="#evaluateAEuclidean" onMouseExited="#reChangeButtonColor" onMouseMoved="#changeButtonColor" prefHeight="31.0" prefWidth="105.0" style="-fx-background-color: #90EE90; -fx-background-radius: 9;" text="A* Euclidean" textFill="#0d1d70">
+            <Button fx:id="solveAEculidean" layoutX="334.0" layoutY="242.0" mnemonicParsing="false" onAction="#solver" onMouseExited="#reChangeButtonColor" onMouseMoved="#changeButtonColor" prefHeight="31.0" prefWidth="105.0" style="-fx-background-color: #90EE90; -fx-background-radius: 9;" text="A* Euclidean" textFill="#0d1d70">
                <font>
                   <Font name="Century" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="solveBFS" layoutX="334.0" layoutY="200.0" mnemonicParsing="false" onAction="#evaluateBFS" onMouseExited="#reChangeButtonColor" onMouseMoved="#changeButtonColor" prefHeight="31.0" prefWidth="105.0" style="-fx-background-color: #90EE90; -fx-background-radius: 9;" text="BFS" textFill="#0d1d70">
+            <Button fx:id="solveBFS" layoutX="334.0" layoutY="200.0" mnemonicParsing="false" onAction="#solver" onMouseExited="#reChangeButtonColor" onMouseMoved="#changeButtonColor" prefHeight="31.0" prefWidth="105.0" style="-fx-background-color: #90EE90; -fx-background-radius: 9;" text="BFS" textFill="#0d1d70">
                <font>
                   <Font name="Century" size="12.0" />
                </font>
@@ -178,6 +178,16 @@
                   <Image url="@assets/drop_down_circle.png" />
                </image>
             </ImageView>
+            <Label layoutX="14.0" layoutY="28.0" prefHeight="23.0" prefWidth="141.0" text="Number of steps" textFill="LIGHTGREEN">
+               <font>
+                  <Font name="Castellar" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="stepsNum" layoutX="51.0" layoutY="64.0" style="-fx-background-color: #ffffff; -fx-background-radius: 9; -fx-padding: 2;" text="Unknown" textFill="#ae255a">
+               <font>
+                  <Font name="Eras Medium ITC" size="14.0" />
+               </font>
+            </Label>
          </children></AnchorPane>
    </children>
 </AnchorPane>
