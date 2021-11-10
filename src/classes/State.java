@@ -1,30 +1,45 @@
 package classes;
 
-public class State {
+public class State  {
 
-    private long currentState;
-    private int zeroRow, zeroColumn;// TODO:: put getter to them 
+    private Long currentState;
+    private int zeroRow, zeroColumn;
+    private double stateCost;// used by A*
+    private int pathCost;// used by A*
 
-    public State(long currentState) {
+    public State() {
+
+    }
+    public int getZeroRow() {
+        return zeroRow;
+    }
+
+    public int getZeroColumn() {
+        return zeroColumn;
+    }
+
+    public State(Long currentState) {
         this.currentState = currentState;
     }
-    public long getCurrentState() {
+    public State(String currentState) {
+        this.currentState = setStateLong(currentState);
+    }
+    public Long getCurrentState() {
         return currentState;
     }
-    public State(String state) {
-        setStateLong(state);
-    }
+
     public void setCurrentState(long currentState) {
         this.currentState = currentState;
     }
 
-    public void setStateLong(String state) {
-        currentState = 0;
+    public Long setStateLong(String state) {
+        Long tmpState = 0L ;
         for (int i = 0; i < state.length(); i++) {
-            currentState += (state.charAt(i) - '0');
-            currentState <<= 4;
+            tmpState += (state.charAt(i) - '0');
+            tmpState <<= 4;
         }
-        currentState >>= 4;
+        tmpState >>= 4;
+        return tmpState ;
     }
 
     public String setStateToString() {
@@ -39,7 +54,7 @@ public class State {
         return state;
     }
 
-   public  int[][] formatToTwoD() {
+    public int[][] formatToTwoD() {
         int[][] arr = new int[3][3];
         int idx = 0;
         String state = setStateToString();
@@ -55,11 +70,33 @@ public class State {
         return arr;
     }
 
-    public  String getStringFromTwoD(int[][] arr) {
+    String getStringFromTwoD(int[][] arr) {
         String state = "";
         for (int i = 0; i < 3; i++)
             for (int j = 0; j < 3; j++)
                 state = state + (char) (arr[i][j] + '0');
         return state;
+    }
+
+    public double getStateCost() {
+        return stateCost;
+    }
+
+    public void setStateCost(double stateCost) {
+        this.stateCost = stateCost;
+    }
+
+    public int getPathCost() {
+        return pathCost;
+    }
+
+    public void setPathCost(int pathCost) {
+        this.pathCost = pathCost;
+    }
+    public  boolean equals(Object x) {
+        return  ( currentState == ( (State) x ).getCurrentState() );
+    }
+    public  int hashCode() {
+            return  Long.hashCode(currentState);
     }
 }

@@ -7,7 +7,6 @@ import java.util.stream.Stream;
 
 import classes.Algorithms;
 import classes.State;
-import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -83,12 +82,11 @@ public class MainSceneController {
     @FXML
     private ImageView twoBox;
 
-    private State state = new State((long) 13438895736L);
-    private Stack<State> path;
+    private State state = new State((Long) 13438895736L);
+    private Stack<Long> path;
     private Algorithms algorithm;
     private int steps;
     Map<Button, Boolean> clickedButtons;
-    Timeline timeline;
 
     public MainSceneController() {
         algorithm = new Algorithms();
@@ -96,35 +94,38 @@ public class MainSceneController {
 
     @FXML
     void solver(ActionEvent event) {
-
+        
         initializeState();
         setClickedColor(event);
-
+        if(state.getCurrentState() == 13438895736L) 
+        return;
         String buttonType = ((Node) event.getSource()).getId();
-        if(buttonType == "solveDFS")
-        path =algorithm.DFS(state);
-        else if(buttonType == "solveAEculidean")
-        path = algorithm.AStarEuclideanDistance(state);
-        else if(buttonType == "solveAManhattan")
-        path = algorithm.AStarManhattanDistance(state);
-        else if(buttonType == "solveBFS")
-        path = algorithm.BFS(state);
+        
+        if (buttonType.compareTo("solveDFS") == 0)
+            path = algorithm.DFS(state.getCurrentState());
+        else if (buttonType.compareTo("solveAEculidean") == 0)
+            path = algorithm.AStarEuclideanDistance(state);
+        else if (buttonType.compareTo("solveAManhattan") == 0)
+            path = algorithm.AStarManhattanDistance(state);
+        else if (buttonType.compareTo("solveBFS") == 0)
+            path = algorithm.BFS(state.getCurrentState());
 
-        if(path==null ||path.isEmpty())
-        stepsNum.setText("No Solution");
-        else{
-            steps=path.size();
+        if (path == null || path.isEmpty())
+            stepsNum.setText("No Solution");
+        else {
+            steps = path.size();
             changeSteps();
             buildPath();
         }
-        
+
     }
-    private void changeSteps(){
+
+    private void changeSteps() {
 
         stepsNum.setText(Integer.toString(steps));
     }
+
     private void initializeState() {
-        timeline = new Timeline();
         String textState = inputSeq.getText();
         if (inputTextIsValid(textState)) {
             state = new State(textState);
@@ -132,6 +133,7 @@ public class MainSceneController {
         }
 
     }
+
     @FXML
     void closeWindowAction(MouseEvent event) {
         Stage stage = (Stage) closeWindow.getScene().getWindow();
@@ -179,11 +181,10 @@ public class MainSceneController {
             steps--;
             changeSteps();
 
-            state = path.pop();
+            state = new State(path.pop());
             updateBoxes();
         }
     }
-    
 
     public void initializeColors() {
         clickedButtons = Stream

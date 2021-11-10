@@ -178,12 +178,12 @@
                   <Image url="@assets/drop_down_circle.png" />
                </image>
             </ImageView>
-            <Label layoutX="14.0" layoutY="28.0" prefHeight="23.0" prefWidth="141.0" text="Number of steps" textFill="LIGHTGREEN">
+            <Label layoutX="5.0" layoutY="14.0" prefHeight="31.0" prefWidth="157.0" text="Number of steps" textFill="LIGHTGREEN">
                <font>
-                  <Font name="Castellar" size="14.0" />
+                  <Font name="Nirmala UI Bold" size="16.0" />
                </font>
             </Label>
-            <Label fx:id="stepsNum" layoutX="51.0" layoutY="64.0" style="-fx-background-color: #ffffff; -fx-background-radius: 9; -fx-padding: 2;" text="Unknown" textFill="#ae255a">
+            <Label fx:id="stepsNum" layoutX="29.0" layoutY="49.0" style="-fx-background-color: #ffffff; -fx-background-radius: 9; -fx-padding: 3;" text="Unknown" textFill="#ae255a">
                <font>
                   <Font name="Eras Medium ITC" size="14.0" />
                </font>
