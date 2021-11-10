@@ -35,18 +35,159 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DisplacementMap?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.FloatMap?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="385.0" prefWidth="613.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainSceneController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="516.0" prefWidth="488.0" style="-fx-background-color: #0000;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainSceneController">
    <children>
-      <Label layoutX="14.0" layoutY="26.0" prefHeight="27.0" prefWidth="151.0" text="8 Puzzle" textFill="#f6ad1b">
-         <font>
-            <Font name="Felix Titling" size="26.0" />
-         </font>
-      </Label>
-      <Button fx:id="DFS" layoutX="440.0" layoutY="138.0" mnemonicParsing="false" onAction="#DFSSolve" prefHeight="33.0" prefWidth="65.0" text="DFS" />
-      <TextField fx:id="ttTitle" layoutX="440.0" layoutY="92.0" onAction="#DFSSolve" opacity="0.33" style="-fx-background-color: black;" />
+      <AnchorPane fx:id="toolbar" prefHeight="62.0" prefWidth="488.0" style="-fx-background-color: #3D4959;">
+         <children>
+            <ImageView fx:id="closeWindow" fitHeight="26.0" fitWidth="22.0" layoutX="452.0" layoutY="16.0" onMouseClicked="#closeWindowAction" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/close.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="title" fitHeight="40.0" fitWidth="136.0" layoutX="71.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/title.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="body" layoutY="67.0" prefHeight="450.0" prefWidth="488.0" style="-fx-background-color: #3D4956;">
+         <children>
+            <ImageView fx:id="threeBox" fitHeight="70.0" fitWidth="70.0" layoutX="29.0" layoutY="207.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/3.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="sixBox" fitHeight="70.0" fitWidth="70.0" layoutX="29.0" layoutY="284.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/6.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="fiveBox" fitHeight="70.0" fitWidth="70.0" layoutX="180.0" layoutY="207.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/5.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="sevenBox" fitHeight="70.0" fitWidth="76.0" layoutX="104.0" layoutY="284.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/7.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="eightBox" fitHeight="70.0" fitWidth="70.0" layoutX="180.0" layoutY="284.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/8.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="fourBox" fitHeight="70.0" fitWidth="70.0" layoutX="104.0" layoutY="207.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/4.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="twoBox" fitHeight="70.0" fitWidth="70.0" layoutX="180.0" layoutY="130.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/2.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="oneBox" fitHeight="70.0" fitWidth="70.0" layoutX="104.0" layoutY="130.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/1.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="spaceBox" fitHeight="70.0" fitWidth="70.0" layoutX="29.0" layoutY="130.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/0.png" />
+               </image>
+            </ImageView>
+            <TextField fx:id="inputSeq" layoutX="316.0" layoutY="62.0" onKeyPressed="#setInitialPuzlleIfEnter" opacity="0.88" prefHeight="25.0" prefWidth="141.0" promptText="Write Sequence " style="-fx-border-color: #0000; -fx-background-color: #9999; -fx-background-radius: 9;">
+               <font>
+                  <Font name="Bell MT Bold" size="14.0" />
+               </font>
+               <effect>
+                  <DropShadow>
+                     <color>
+                        <Color red="0.7105262875556946" green="0.7105262875556946" blue="0.7105262875556946" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </TextField>
+            <Button fx:id="solveDFS" layoutX="334.0" layoutY="156.0" mnemonicParsing="false" onAction="#solver" onMouseExited="#reChangeButtonColor" onMouseMoved="#changeButtonColor" prefHeight="31.0" prefWidth="105.0" style="-fx-background-color: #90EE90; -fx-background-radius: 9;" text="DFS" textFill="#0d1d70">
+               <font>
+                  <Font name="Century" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="solveAManhattan" layoutX="334.0" layoutY="284.0" mnemonicParsing="false" onAction="#solver" onMouseExited="#reChangeButtonColor" onMouseMoved="#changeButtonColor" prefHeight="31.0" prefWidth="105.0" style="-fx-background-color: #90EE90; -fx-background-radius: 9;" text="A* Manhattan" textFill="#0d1d70">
+               <font>
+                  <Font name="Century" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="solveAEculidean" layoutX="334.0" layoutY="242.0" mnemonicParsing="false" onAction="#solver" onMouseExited="#reChangeButtonColor" onMouseMoved="#changeButtonColor" prefHeight="31.0" prefWidth="105.0" style="-fx-background-color: #90EE90; -fx-background-radius: 9;" text="A* Euclidean" textFill="#0d1d70">
+               <font>
+                  <Font name="Century" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="solveBFS" layoutX="334.0" layoutY="200.0" mnemonicParsing="false" onAction="#solver" onMouseExited="#reChangeButtonColor" onMouseMoved="#changeButtonColor" prefHeight="31.0" prefWidth="105.0" style="-fx-background-color: #90EE90; -fx-background-radius: 9;" text="BFS" textFill="#0d1d70">
+               <font>
+                  <Font name="Century" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="nextStip" layoutX="208.0" layoutY="385.0" mnemonicParsing="false" onAction="#nextStepInPath" prefHeight="31.0" prefWidth="79.0" style="-fx-background-radius: 15;" text="Next Step" textAlignment="CENTER">
+               <font>
+                  <Font name="Kristen ITC" size="10.0" />
+               </font>
+            </Button>
+            <Label layoutX="360.0" layoutY="89.0" prefHeight="40.0" prefWidth="54.0" text="Solve" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Colonna MT" size="23.0" />
+               </font>
+               <effect>
+                  <DisplacementMap>
+                     <mapData>
+                        <FloatMap />
+                     </mapData>
+                     <input>
+                        <Lighting>
+                           <bumpInput>
+                              <Shadow radius="11.9475" width="28.79">
+                                 <color>
+                                    <Color red="0.5438596606254578" green="0.30550140142440796" blue="0.30550140142440796" opacity="0.949999988079071" />
+                                 </color>
+                              </Shadow>
+                           </bumpInput>
+                           <light>
+                              <Light.Distant />
+                           </light>
+                        </Lighting>
+                     </input>
+                  </DisplacementMap>
+               </effect>
+            </Label>
+            <ImageView fitHeight="19.0" fitWidth="31.0" layoutX="377.0" layoutY="129.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/drop_down_circle.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="14.0" layoutY="28.0" prefHeight="23.0" prefWidth="141.0" text="Number of steps" textFill="LIGHTGREEN">
+               <font>
+                  <Font name="Castellar" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="stepsNum" layoutX="51.0" layoutY="64.0" style="-fx-background-color: #ffffff; -fx-background-radius: 9; -fx-padding: 2;" text="Unknown" textFill="#ae255a">
+               <font>
+                  <Font name="Eras Medium ITC" size="14.0" />
+               </font>
+            </Label>
+         </children></AnchorPane>
    </children>
 </AnchorPane>

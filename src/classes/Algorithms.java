@@ -148,7 +148,7 @@ public class Algorithms {
                 double f = heuristics.call(neighbor) + g;
                 maxDepth = Math.max(g,maxDepth);
                 neighbor.setPathCost(g);
-                neighbor.setStateCost(f);
+q                neighbor.setStateCost(f);
             }
             for (State neighbor : neighbors) {
                 if (!frontier.contains(neighbor) && !explored.contains(neighbor.getCurrentState())) {
