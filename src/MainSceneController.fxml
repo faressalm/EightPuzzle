@@ -49,21 +49,21 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="516.0" prefWidth="488.0" style="-fx-background-color: #0000;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainSceneController">
    <children>
-      <AnchorPane fx:id="toolbar" prefHeight="62.0" prefWidth="488.0" style="-fx-background-color: #3D4959;">
+      <AnchorPane fx:id="toolbar" prefHeight="62.0" prefWidth="488.0" style="-fx-background-color: #3f4b56;">
          <children>
             <ImageView fx:id="closeWindow" fitHeight="26.0" fitWidth="22.0" layoutX="452.0" layoutY="16.0" onMouseClicked="#closeWindowAction" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@assets/close.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="title" fitHeight="40.0" fitWidth="136.0" layoutX="71.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="title" fitHeight="55.0" fitWidth="105.0" layoutX="14.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@assets/title.png" />
+                  <Image url="@assets/titlelog.png" />
                </image>
             </ImageView>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="body" layoutY="67.0" prefHeight="450.0" prefWidth="488.0" style="-fx-background-color: #3D4956;">
+      <AnchorPane fx:id="body" layoutY="67.0" prefHeight="450.0" prefWidth="488.0" style="-fx-background-color: #3f4b56;">
          <children>
             <ImageView fx:id="threeBox" fitHeight="70.0" fitWidth="70.0" layoutX="29.0" layoutY="207.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -178,14 +178,34 @@
                   <Image url="@assets/drop_down_circle.png" />
                </image>
             </ImageView>
-            <Label layoutX="14.0" layoutY="28.0" prefHeight="23.0" prefWidth="141.0" text="Number of steps" textFill="LIGHTGREEN">
+            <Label layoutX="20.0" layoutY="13.0" prefHeight="31.0" prefWidth="157.0" text="Number of steps" textFill="LIGHTGREEN">
                <font>
-                  <Font name="Castellar" size="14.0" />
+                  <Font name="Nirmala UI Bold" size="16.0" />
                </font>
             </Label>
-            <Label fx:id="stepsNum" layoutX="51.0" layoutY="64.0" style="-fx-background-color: #ffffff; -fx-background-radius: 9; -fx-padding: 2;" text="Unknown" textFill="#ae255a">
+            <Label fx:id="stepsNum" layoutX="162.0" layoutY="17.0" style="-fx-background-color: #ffffff; -fx-background-radius: 9; -fx-padding: 3;" text="Unknown" textFill="#ae255a">
                <font>
                   <Font name="Eras Medium ITC" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="20.0" layoutY="53.0" text="Search Depth :" textFill="LIGHTGREEN">
+               <font>
+                  <Font name="Nirmala UI Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutX="20.0" layoutY="80.0" text="Running Time :" textFill="LIGHTGREEN">
+               <font>
+                  <Font name="Nirmala UI Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="nodeExpanded" layoutX="112.0" layoutY="53.0" text="0" textFill="WHITE">
+               <font>
+                  <Font name="Nirmala UI Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="runningTime" layoutX="112.0" layoutY="80.0" text="0" textFill="WHITE">
+               <font>
+                  <Font name="Nirmala UI Bold" size="12.0" />
                </font>
             </Label>
          </children></AnchorPane>

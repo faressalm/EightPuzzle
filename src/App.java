@@ -1,10 +1,10 @@
 import java.io.IOException;
-
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -27,7 +27,7 @@ public class App extends Application {
         mainController.initializeColors();
         screenMovable(stage,root);
         stage.initStyle(StageStyle.TRANSPARENT);
-        
+        stage.getIcons().add(new Image("/assets/log.png"));
         Scene scene = new Scene(root);
         scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
         stage.setScene(scene);

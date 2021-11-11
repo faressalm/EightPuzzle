@@ -7,7 +7,6 @@ import java.util.stream.Stream;
 
 import classes.Algorithms;
 import classes.State;
-import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -25,9 +24,6 @@ import javafx.stage.Stage;
 public class MainSceneController {
     @FXML
     private AnchorPane body;
-
-    @FXML
-    private Label stepsNum;
 
     @FXML
     private ImageView closeWindow;
@@ -48,7 +44,13 @@ public class MainSceneController {
     private Button nextStip;
 
     @FXML
+    private Label nodeExpanded;
+
+    @FXML
     private ImageView oneBox;
+
+    @FXML
+    private Label runningTime;
 
     @FXML
     private ImageView sevenBox;
@@ -72,6 +74,9 @@ public class MainSceneController {
     private ImageView spaceBox;
 
     @FXML
+    private Label stepsNum;
+
+    @FXML
     private ImageView threeBox;
 
     @FXML
@@ -83,12 +88,11 @@ public class MainSceneController {
     @FXML
     private ImageView twoBox;
 
-    private State state = new State((long) 13438895736L);
-    private Stack<State> path;
+    private State state = new State((Long) 13438895736L);
+    private Stack<Long> path;
     private Algorithms algorithm;
     private int steps;
     Map<Button, Boolean> clickedButtons;
-    Timeline timeline;
 
     public MainSceneController() {
         algorithm = new Algorithms();
@@ -99,32 +103,40 @@ public class MainSceneController {
 
         initializeState();
         setClickedColor(event);
-
+        if (state.getCurrentState() == 13438895736L)
+            return;
         String buttonType = ((Node) event.getSource()).getId();
-        if(buttonType == "solveDFS")
-        path =algorithm.DFS(state);
-        else if(buttonType == "solveAEculidean")
-        path = algorithm.AStarEuclideanDistance(state);
-        else if(buttonType == "solveAManhattan")
-        path = algorithm.AStarManhattanDistance(state);
-        else if(buttonType == "solveBFS")
-        path = algorithm.BFS(state);
+        long startTime = System.currentTimeMillis();
 
-        if(path==null ||path.isEmpty())
-        stepsNum.setText("No Solution");
-        else{
-            steps=path.size();
+        if (buttonType.compareTo("solveDFS") == 0)
+            path = algorithm.DFS(state.getCurrentState());
+        else if (buttonType.compareTo("solveAEculidean") == 0)
+            path = algorithm.AStarEuclideanDistance(state);
+        else if (buttonType.compareTo("solveAManhattan") == 0)
+            path = algorithm.AStarManhattanDistance(state);
+        else if (buttonType.compareTo("solveBFS") == 0)
+            path = algorithm.BFS(state.getCurrentState());
+        long stopTime = System.currentTimeMillis();
+        if (path == null || path.isEmpty()) {
+            stepsNum.setText("No Solution");
+            nodeExpanded.setText(Integer.toString(0));
+            runningTime.setText(Integer.toString(0));
+        } else {
+            System.out.println("Path:");
+            steps = path.size();
+            nodeExpanded.setText(Integer.toString(algorithm.getMaxDepth() == 0?steps-1:algorithm.getMaxDepth()));
+            runningTime.setText(Integer.toString((int)(stopTime-startTime))+" ms");
             changeSteps();
-            buildPath();
         }
-        
+
     }
-    private void changeSteps(){
+
+    private void changeSteps() {
 
         stepsNum.setText(Integer.toString(steps));
     }
+
     private void initializeState() {
-        timeline = new Timeline();
         String textState = inputSeq.getText();
         if (inputTextIsValid(textState)) {
             state = new State(textState);
@@ -132,6 +144,7 @@ public class MainSceneController {
         }
 
     }
+
     @FXML
     void closeWindowAction(MouseEvent event) {
         Stage stage = (Stage) closeWindow.getScene().getWindow();
@@ -178,12 +191,11 @@ public class MainSceneController {
         if (!path.isEmpty()) {
             steps--;
             changeSteps();
-
-            state = path.pop();
+            state = new State(path.pop());
+            System.out.println(state.setStateToString());
             updateBoxes();
         }
     }
-    
 
     public void initializeColors() {
         clickedButtons = Stream

@@ -54,7 +54,7 @@ public class State  {
         return state;
     }
 
-    int[][] formatToTwoD() {
+    public int[][] formatToTwoD() {
         int[][] arr = new int[3][3];
         int idx = 0;
         String state = setStateToString();
@@ -93,4 +93,9 @@ public class State  {
     public void setPathCost(int pathCost) {
         this.pathCost = pathCost;
     }
+
+
 }
+
+
+

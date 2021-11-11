@@ -21,3 +21,4 @@ public class test {
         System.out.println(a.explored.size());*/
     }
 }
+

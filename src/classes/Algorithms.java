@@ -85,7 +85,7 @@ public class Algorithms {
         Queue<Long> frontier = new LinkedList<Long>();
         frontier.add(initialState);
         explored.add(initialState);
-        
+
         while (!frontier.isEmpty()) {
             Long stateLong = frontier.poll();
 
@@ -241,4 +241,4 @@ public class Algorithms {
     public void setMaxDepth(int maxDepth) {
         this.maxDepth = maxDepth;
     }
-}
+} 
