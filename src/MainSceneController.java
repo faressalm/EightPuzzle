@@ -26,9 +26,6 @@ public class MainSceneController {
     private AnchorPane body;
 
     @FXML
-    private Label stepsNum;
-
-    @FXML
     private ImageView closeWindow;
 
     @FXML
@@ -47,7 +44,13 @@ public class MainSceneController {
     private Button nextStip;
 
     @FXML
+    private Label nodeExpanded;
+
+    @FXML
     private ImageView oneBox;
+
+    @FXML
+    private Label runningTime;
 
     @FXML
     private ImageView sevenBox;
@@ -69,6 +72,9 @@ public class MainSceneController {
 
     @FXML
     private ImageView spaceBox;
+
+    @FXML
+    private Label stepsNum;
 
     @FXML
     private ImageView threeBox;
@@ -94,13 +100,14 @@ public class MainSceneController {
 
     @FXML
     void solver(ActionEvent event) {
-        
+
         initializeState();
         setClickedColor(event);
-        if(state.getCurrentState() == 13438895736L) 
-        return;
+        if (state.getCurrentState() == 13438895736L)
+            return;
         String buttonType = ((Node) event.getSource()).getId();
-        
+        long startTime = System.currentTimeMillis();
+
         if (buttonType.compareTo("solveDFS") == 0)
             path = algorithm.DFS(state.getCurrentState());
         else if (buttonType.compareTo("solveAEculidean") == 0)
@@ -109,13 +116,16 @@ public class MainSceneController {
             path = algorithm.AStarManhattanDistance(state);
         else if (buttonType.compareTo("solveBFS") == 0)
             path = algorithm.BFS(state.getCurrentState());
-
-        if (path == null || path.isEmpty())
+        long stopTime = System.currentTimeMillis();
+        if (path == null || path.isEmpty()) {
             stepsNum.setText("No Solution");
-        else {
+            nodeExpanded.setText(Integer.toString(0));
+            runningTime.setText(Integer.toString(0));
+        } else {
             steps = path.size();
+            nodeExpanded.setText(Integer.toString(algorithm.getMaxDepth() == 0?steps:algorithm.getMaxDepth()));
+            runningTime.setText(Integer.toString((int)(stopTime-startTime))+" ms");
             changeSteps();
-            buildPath();
         }
 
     }

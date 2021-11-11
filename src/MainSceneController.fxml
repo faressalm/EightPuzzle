@@ -178,14 +178,34 @@
                   <Image url="@assets/drop_down_circle.png" />
                </image>
             </ImageView>
-            <Label layoutX="5.0" layoutY="14.0" prefHeight="31.0" prefWidth="157.0" text="Number of steps" textFill="LIGHTGREEN">
+            <Label layoutX="20.0" layoutY="13.0" prefHeight="31.0" prefWidth="157.0" text="Number of steps" textFill="LIGHTGREEN">
                <font>
                   <Font name="Nirmala UI Bold" size="16.0" />
                </font>
             </Label>
-            <Label fx:id="stepsNum" layoutX="29.0" layoutY="49.0" style="-fx-background-color: #ffffff; -fx-background-radius: 9; -fx-padding: 3;" text="Unknown" textFill="#ae255a">
+            <Label fx:id="stepsNum" layoutX="162.0" layoutY="17.0" style="-fx-background-color: #ffffff; -fx-background-radius: 9; -fx-padding: 3;" text="Unknown" textFill="#ae255a">
                <font>
                   <Font name="Eras Medium ITC" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="20.0" layoutY="53.0" text="Search Depth :" textFill="LIGHTGREEN">
+               <font>
+                  <Font name="Nirmala UI Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutX="20.0" layoutY="80.0" text="Running Time :" textFill="LIGHTGREEN">
+               <font>
+                  <Font name="Nirmala UI Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="nodeExpanded" layoutX="112.0" layoutY="53.0" text="0" textFill="WHITE">
+               <font>
+                  <Font name="Nirmala UI Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="runningTime" layoutX="112.0" layoutY="80.0" text="0" textFill="WHITE">
+               <font>
+                  <Font name="Nirmala UI Bold" size="12.0" />
                </font>
             </Label>
          </children></AnchorPane>
