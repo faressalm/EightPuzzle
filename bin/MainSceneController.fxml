@@ -49,21 +49,21 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="516.0" prefWidth="488.0" style="-fx-background-color: #0000;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainSceneController">
    <children>
-      <AnchorPane fx:id="toolbar" prefHeight="62.0" prefWidth="488.0" style="-fx-background-color: #3D4959;">
+      <AnchorPane fx:id="toolbar" prefHeight="62.0" prefWidth="488.0" style="-fx-background-color: #3f4b56;">
          <children>
             <ImageView fx:id="closeWindow" fitHeight="26.0" fitWidth="22.0" layoutX="452.0" layoutY="16.0" onMouseClicked="#closeWindowAction" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@assets/close.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="title" fitHeight="40.0" fitWidth="136.0" layoutX="71.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="title" fitHeight="55.0" fitWidth="105.0" layoutX="14.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@assets/title.png" />
+                  <Image url="@assets/titlelog.png" />
                </image>
             </ImageView>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="body" layoutY="67.0" prefHeight="450.0" prefWidth="488.0" style="-fx-background-color: #3D4956;">
+      <AnchorPane fx:id="body" layoutY="67.0" prefHeight="450.0" prefWidth="488.0" style="-fx-background-color: #3f4b56;">
          <children>
             <ImageView fx:id="threeBox" fitHeight="70.0" fitWidth="70.0" layoutX="29.0" layoutY="207.0" pickOnBounds="true" preserveRatio="true">
                <image>

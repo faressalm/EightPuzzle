@@ -122,8 +122,9 @@ public class MainSceneController {
             nodeExpanded.setText(Integer.toString(0));
             runningTime.setText(Integer.toString(0));
         } else {
+            System.out.println("Path:");
             steps = path.size();
-            nodeExpanded.setText(Integer.toString(algorithm.getMaxDepth() == 0?steps:algorithm.getMaxDepth()));
+            nodeExpanded.setText(Integer.toString(algorithm.getMaxDepth() == 0?steps-1:algorithm.getMaxDepth()));
             runningTime.setText(Integer.toString((int)(stopTime-startTime))+" ms");
             changeSteps();
         }
@@ -190,8 +191,8 @@ public class MainSceneController {
         if (!path.isEmpty()) {
             steps--;
             changeSteps();
-
             state = new State(path.pop());
+            System.out.println(state.setStateToString());
             updateBoxes();
         }
     }

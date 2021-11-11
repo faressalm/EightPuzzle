@@ -93,10 +93,5 @@ public class State  {
     public void setPathCost(int pathCost) {
         this.pathCost = pathCost;
     }
-    public  boolean equals(Object x) {
-        return  ( currentState == ( (State) x ).getCurrentState() );
-    }
-    public  int hashCode() {
-            return  Long.hashCode(currentState);
-    }
+
 }
