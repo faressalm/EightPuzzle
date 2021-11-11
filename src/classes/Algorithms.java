@@ -50,13 +50,10 @@ public class Algorithms {
 
     private void dfs(Long s) {
         Stack<Long> st = new Stack<>();
-        Stack<Integer> depths = new Stack<Integer>();
-        depths.push(0) ;
         explored.add(s);
         st.push(s);
         while (!st.empty()) {
             Long x = st.pop();
-            int depth = depths.pop();
             if (x.equals(goal))
                 break;
             state.setCurrentState(x); // update the instance of state.
@@ -66,8 +63,6 @@ public class Algorithms {
                     parents.put(next, x);
                     explored.add(next);
                     st.push(next);
-                    depths.push(depth + 1) ;
-                    maxDepth = Math.max(maxDepth , depth  + 1) ;
                 }
             }
         }
@@ -113,29 +108,39 @@ public class Algorithms {
     }
 
     public Stack<Long> AStarManhattanDistance(State initialState) {
-        return AStar(initialState, new ManhattanDistance());
+        return Astar(initialState, new ManhattanDistance());
 
     }
 
     public Stack<Long> AStarEuclideanDistance(State initialState) {
-        return AStar(initialState, new EuclideanDistance());
+        return Astar(initialState, new EuclideanDistance());
 
     }
 
-    public Stack<Long> AStar(State initialState, Heuristics heuristics) {
+    public Stack<Long> Astar(State initialState, Heuristics heuristics) {
+        //initialize maps and queue and other variables
         initializeMapAndSet(initialState.getCurrentState());
         PriorityQueue<State> frontier = new PriorityQueue<State>(Comparator.comparing(State::getStateCost));
         Map<String, State> auxFrontier = new HashMap<String, State>();
         initialState.setStateCost(0);
         initialState.setPathCost(0);
+
+        //insert first element in frontier to start
         frontier.add(initialState);
         auxFrontier.put(initialState.setStateToString(), initialState);
+        //loop until there is no elements in frontier
         while (!frontier.isEmpty()) {
-            State stateToCheck = frontier.poll();
-            explored.add(stateToCheck.getCurrentState());
+            State stateToCheck = frontier.poll(); //get the state with the minimum total cost in the frontier
+            auxFrontier.remove(stateToCheck.setStateToString());
+
+            maxDepth = Math.max(stateToCheck.getPathCost(),maxDepth); //update max depth
+            explored.add(stateToCheck.getCurrentState());//add the state to the explored list
+
             if (goal.equals(stateToCheck.getCurrentState())) {
                 return getPath();
             }
+
+            //get state children and create their states objects
             state.setCurrentState(stateToCheck.getCurrentState());
             ArrayList<Long> neighborsLong = getNeighbors();
             ArrayList<State> neighbors = new ArrayList<>();
@@ -143,24 +148,32 @@ public class Algorithms {
                 State temp = new State(x);
                 neighbors.add(temp);
             }
+
+            //calculate possible moves cost
             for (State neighbor : neighbors) {
                 int g = stateToCheck.getPathCost() + 1;
                 double f = heuristics.call(neighbor) + g;
-                maxDepth = Math.max(g,maxDepth);
                 neighbor.setPathCost(g);
-q                neighbor.setStateCost(f);
+                neighbor.setStateCost(f);
             }
+
             for (State neighbor : neighbors) {
-                if (!frontier.contains(neighbor) && !explored.contains(neighbor.getCurrentState())) {
-                    parents.put(neighbor.getCurrentState(), stateToCheck.getCurrentState());
+                //if the state is not in frontier and explored then put it in frontier
+                if (!auxFrontier.containsKey(neighbor.setStateToString()) && !explored.contains(neighbor.getCurrentState())) {
+                    parents.put(neighbor.getCurrentState(), stateToCheck.getCurrentState()); //to connect states together
                     frontier.add(neighbor);
                     auxFrontier.put(neighbor.setStateToString(), neighbor);
-                } else if (frontier.contains(neighbor)) {
+                }
+
+                //if the state is in frontier and have a better cost then update frontier with new cost
+                else if (auxFrontier.containsKey(neighbor.setStateToString())) {
                     State temp = auxFrontier.get(neighbor.setStateToString());
                     if (temp.getStateCost() > neighbor.getStateCost()) {
                         parents.put(temp.getCurrentState(), stateToCheck.getCurrentState());
                         frontier.remove(temp);
+                        auxFrontier.remove(temp.setStateToString());
                         frontier.add(neighbor);
+                        auxFrontier.put(neighbor.setStateToString(),neighbor);
                     }
                 }
             }
