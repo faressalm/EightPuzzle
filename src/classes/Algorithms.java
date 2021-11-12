@@ -129,7 +129,7 @@ public class Algorithms {
             state.setCurrentState(stateLong); // Update the instance of state
             ArrayList<Long> neighbors = getNeighbors();
             for (Long neighbor : neighbors) {
-                // Add neighbor states if only not in frontier & explored lists
+                // Add neighbor states if only not in explored lists
                 if (!explored.contains(neighbor)) {
                     parents.put(neighbor, stateLong);
                     frontier.add(neighbor);
