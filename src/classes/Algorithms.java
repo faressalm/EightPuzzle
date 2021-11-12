@@ -12,20 +12,38 @@ public class Algorithms {
     public Algorithms() {
         state = new State();
     }
-
+    /**
+     * Swap two elements in a 2D array.
+     * @param arr 2D array
+     * @param i row of the first element
+     * @param j column of the first element
+     * @param x row of the second element
+     * @param y column of the second element
+     */
     private void swap(int arr[][], int i, int j, int x, int y) {
         int tmp = arr[i][j];
         arr[i][j] = arr[x][y];
         arr[x][y] = tmp;
     }
-
+     /**
+     * Make a transition between 2 States.
+     * @param arr 2D array
+     * @param i row of the first element to be swapped
+     * @param j column of the first element to be swapped
+     * @param x row of the second element to be swapped
+     * @param y column of the second element to be swapped
+     * @return a new state based on the transition made
+     */
     private Long getMove(int arr[][], int i, int j, int x, int y) {
         swap(arr, i, j, x, y);
         Long s = state.setStateLong(state.getStringFromTwoD(arr));
         swap(arr, i, j, x, y);
         return s;
     }
-
+     /**
+     * Get Neighbors of an empty cell of a state
+     * @return array list of these neighbors
+     */
     public ArrayList<Long> getNeighbors() {
         ArrayList<Long> adj = new ArrayList<>();
         int[][] arr = state.formatToTwoD(); // set zeroRow & zeroColumn .
@@ -47,7 +65,10 @@ public class Algorithms {
         }
         return adj;
     }
-
+     /**
+     * Applying dfs algorithm,
+     * @param s the initial state.
+     */
     private void dfs(Long s) {
         Stack<Long> st = new Stack<>();
         explored.add(s);
@@ -67,18 +88,30 @@ public class Algorithms {
             }
         }
     }
-
+    /**
+     * convert a state from string to Long
+     * @param state state as string
+     * @return state as long
+     */
     public Long getLong(String state) {
         this.state.setStateLong(state);
         return this.state.getCurrentState();
     }
-
+     /**
+     * Applying DFS algorithm
+     * @param initialState
+     * @return A stack of the path from initial state to goal(top of the stack)
+     */
     public Stack<Long> DFS(Long initialState) {
         initializeMapAndSet(initialState);
         dfs(initialState);
         return getPath();
     }
-
+    /**
+     * Applying BFS algorithm
+     * @param initialState
+     * @return A stack of the path from initial state to goal(top of the stack)
+     */
     public Stack<Long> BFS(Long initialState) {
         initializeMapAndSet(initialState);
         // Queue to store frontier
@@ -180,7 +213,10 @@ public class Algorithms {
         }
         return getPath();
     }
-
+   /**
+     * Initialize the HashMap and HashSet before applying an algorithm
+     * @param initialState
+     */
     private void initializeMapAndSet(Long initialState) {
         // initialize them as every function will rewrite on them
         parents = new HashMap<Long, Long>();
@@ -189,7 +225,10 @@ public class Algorithms {
         maxDepth = 0;
 
     }
-
+   /**
+     *
+     * @return an empty stack if the problem is not solvable or a stack of the path from initial state to goal(top of the stack)
+     */
     private Stack<Long> getPath() {
         Stack<Long> path = new Stack<>();
         if (!parents.containsKey(goal))
@@ -234,6 +273,10 @@ public class Algorithms {
             return totalEuclideanDistance;
         }
     }
+     /**
+     * Return the max Depth of an algorithm is applied
+     * @return
+     */
     public int getMaxDepth() {
         return maxDepth;
     }
