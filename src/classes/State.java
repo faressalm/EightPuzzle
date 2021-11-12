@@ -27,11 +27,18 @@ public class State  {
     public Long getCurrentState() {
         return currentState;
     }
-
+    /**
+     * Set the state to  a specific Long number
+     * @param currentState
+     */
     public void setCurrentState(long currentState) {
         this.currentState = currentState;
     }
-
+      /**
+     * Convert a string state to long one
+     * @param state  state as string
+     * @return  state as long
+     */
     public Long setStateLong(String state) {
         Long tmpState = 0L ;
         for (int i = 0; i < state.length(); i++) {
@@ -41,7 +48,10 @@ public class State  {
         tmpState >>= 4;
         return tmpState ;
     }
-
+    /**
+     * get The string of the state
+     * @return state as string
+     */
     public String setStateToString() {
         String state = "";
         long tempCurrentState = currentState;
@@ -53,7 +63,10 @@ public class State  {
         }
         return state;
     }
-
+   /**
+     * convert a state to 2D array
+     * @return 2D array
+     */
     public int[][] formatToTwoD() {
         int[][] arr = new int[3][3];
         int idx = 0;
@@ -69,7 +82,11 @@ public class State  {
         }
         return arr;
     }
-
+    /**
+     *
+     * @param arr 2D array
+     * @return the string state of this array
+     */
     String getStringFromTwoD(int[][] arr) {
         String state = "";
         for (int i = 0; i < 3; i++)
@@ -93,5 +110,6 @@ public class State  {
     public void setPathCost(int pathCost) {
         this.pathCost = pathCost;
     }
+
 
 }
